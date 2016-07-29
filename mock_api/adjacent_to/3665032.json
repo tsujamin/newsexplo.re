@@ -1,0 +1,11 @@
+{
+  "id" : 3665032,
+  "docType" : "Topic",
+  "title" : "Corruption",
+
+  "adjacent_nodes" : [
+    "id" : 3692950,
+    "docType" : "Article",
+    "title" : "3 arrested in harness racing corruption probe",
+  ],
+}

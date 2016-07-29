@@ -1,0 +1,93 @@
+{
+  "id" : 3692950,
+  "docType" : "Article",
+  "title" : "3 arrested in harness racing corruption probe",
+  "shortTeaserTitle" : "Trots arrests",
+  "teaserTitle" : "3 arrested in harness racing corruption probe",
+  "shortTeaserTextPlain" : "Police arrest and charge three men as part of their investigation into allegations of corruption in the harness racing industry.",
+  "teaserTextPlain" : "Police have arrested and charged three men as part of their investigation into allegations of corruption in the harness racing industry.",
+  "contentGenre" : "Current",
+  "relatedItems" : [ {
+    "id" : 3692974,
+    "docType" : "ImageProxy",
+    "shortTeaserTitle" : "Harness racing in Hobart - the Inter Dominion"
+  } ],
+  "subject" : [ {
+    "name" : "Harness Racing",
+    "id" : 2626,
+    "parent" : {
+      "name" : "Horse Racing",
+      "id" : 2624,
+      "parent" : {
+        "name" : "Sport",
+        "id" : 2478
+      }
+    }
+  }, {
+    "name" : "Corruption",
+    "id" : 3665032,
+    "parent" : {
+      "name" : "Law, Crime and Justice",
+      "id" : 1970
+    }
+  }, {
+    "name" : "Police",
+    "id" : 1978,
+    "parent" : {
+      "name" : "Law, Crime and Justice",
+      "id" : 1970
+    }
+  } ],
+  "location" : [ {
+    "name" : "NSW",
+    "id" : 6866,
+    "parent" : {
+      "name" : "Australia",
+      "id" : 6864,
+      "latitude" : "-26.000",
+      "longitude" : "134.500"
+    },
+    "latitude" : "-33.6167",
+    "longitude" : "150"
+  }, {
+    "name" : "Australia",
+    "id" : 6864,
+    "latitude" : "-26.000",
+    "longitude" : "134.500"
+  }, {
+    "name" : "Sydney",
+    "id" : 10232,
+    "parent" : {
+      "name" : "NSW",
+      "id" : 6866,
+      "parent" : {
+        "name" : "Australia",
+        "id" : 6864,
+        "latitude" : "-26.000",
+        "longitude" : "134.500"
+      },
+      "latitude" : "-33.6167",
+      "longitude" : "150"
+    },
+    "postCode" : "2000",
+    "latitude" : "-33.8631",
+    "longitude" : "151.2043"
+  } ],
+  "firstPublishedDate" : "2011-11-24T07:14:07+00:00",
+  "lastPublishedDate" : "2011-11-24T07:14:07+00:00",
+  "shortTeaserText" : "<p>Police arrest and charge three men as part of their investigation into allegations of corruption in the harness racing industry.</p>",
+  "teaserText" : "<p>Police have arrested and charged three men as part of their investigation into allegations of corruption in the harness racing industry.</p>",
+  "keywords" : "trots, corruption, harness racing",
+  "latitude" : "-33.6167",
+  "longitude" : "150",
+  "version" : 3,
+  "importance" : 4,
+  "canonicalUrl" : "http://www.abc.net.au/news/2011-11-24/police-arrests-over-trots-scandal/3692950",
+  "rootNavigation" : {
+    "id" : 45902,
+    "segment" : "news",
+    "title" : "ABC News"
+  },
+  "textPlain" : "Police have arrested and charged three men as part of their investigation into allegations of corruption in the harness racing industry.\n\nThe arrests come just two days before NSW harness racing's biggest event, the Miracle Mile at Menangle on Saturday night.\n\nNSW Police released a statement today confirming a 48-year-old man from Leura had been charged with 34 counts of receiving the benefits of corruption.\n\nHe appeared in Lithgow Court and was granted conditional bail to appear at Downing Centre Local Court on December 8.\n\nA 45-year-old Woonona man was charged with eight counts of corruptly giving or offering a benefit.\n\nThe man was granted conditional bail and is due to appear in Wollongong court on December 20.\n\nThe third man arrested, a 24-year-old from Plumpton, was charged with 10 counts of giving or offering a benefit.\n\nHe is due to appear in Bankstown Local Court on December 14.\n\nIndustry rocked\n\nThe harness industry was rocked in August when two stewards resigned amid allegations some officials were not ordering swabs from certain horses in certain races and the knowledge of other participants of the practice.\n\nPolice established Strike Force Tairora to investigate the reports and the arrests came as a result of their investigations, which are continuing.\n\nIt is believed further arrests are likely.\n\nHarness Racing NSW also set up its own inquiry, establishing a three-man panel in September to investigate the allegations.\n\nRay Murrihy, chief steward of thoroughbred racing in NSW, was appointed to the special panel earlier this month, replacing chief harness racing steward Reid Sanders to remove any perception of bias.\n\nHRNSW spokesman Dale Walker said the panel's inquiries into the allegations were ongoing.\n\n\"Harness Racing NSW is investigating allegations of corruption in the industry and the special stewards panel are currently interviewing persons of interest,\" Mr Walker said.\n\nStood down\n\nHRNSW also issued a statement confirming premier reinsman Greg Bennett had been stood down from driving indefinitely.\n\nThey cited Australian Harness Racing Rule 183 which states a driver may be directed not to drive or take part in a race \"pending the outcome of an inquiry, investigation or objection, or where a person has been charged with an offence\".\n\nBennett was to have driven Karloo Mick in the Miracle Mile but has been replaced by Robbie Morris.\n\nHarness officials said they were unable to comment further.\n\nAAP",
+  "text" : "<p>Police have arrested and charged three men as part of their investigation into allegations of corruption in the harness racing industry.</p><p>The arrests come just two days before NSW harness racing's biggest event, the Miracle Mile at Menangle on Saturday night.</p><p>NSW Police released a statement today confirming a 48-year-old man from Leura had been charged with 34 counts of receiving the benefits of corruption.</p><p>He appeared in Lithgow Court and was granted conditional bail to appear at Downing Centre Local Court on December 8.</p><p>A 45-year-old Woonona man was charged with eight counts of corruptly giving or offering a benefit.</p><p>The man was granted conditional bail and is due to appear in Wollongong court on December 20.</p><p>The third man arrested, a 24-year-old from Plumpton, was charged with 10 counts of giving or offering a benefit.</p><p>He is due to appear in Bankstown Local Court on December 14.</p><h4>Industry rocked</h4><p>The harness industry was rocked in August when two stewards resigned amid allegations some officials were not ordering swabs from certain horses in certain races and the knowledge of other participants of the practice.</p><p>Police established Strike Force Tairora to investigate the reports and the arrests came as a result of their investigations, which are continuing.</p><p>It is believed further arrests are likely.</p><p>Harness Racing NSW also set up its own inquiry, establishing a three-man panel in September to investigate the allegations.</p><p>Ray Murrihy, chief steward of thoroughbred racing in NSW, was appointed to the special panel earlier this month, replacing chief harness racing steward Reid Sanders to remove any perception of bias.</p><p>HRNSW spokesman Dale Walker said the panel's inquiries into the allegations were ongoing.</p><p>\"Harness Racing NSW is investigating allegations of corruption in the industry and the special stewards panel are currently interviewing persons of interest,\" Mr Walker said.</p><h4>Stood down</h4><p>HRNSW also issued a statement confirming premier reinsman Greg Bennett had been stood down from driving indefinitely.</p><p>They cited Australian Harness Racing Rule 183 which states a driver may be directed not to drive or take part in a race \"pending the outcome of an inquiry, investigation or objection, or where a person has been charged with an offence\".</p><p>Bennett was to have driven Karloo Mick in the Miracle Mile but has been replaced by Robbie Morris.</p><p>Harness officials said they were unable to comment further.</p><p><strong>AAP</strong></p>"
+}

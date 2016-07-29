@@ -1,0 +1,85 @@
+{
+  "id" : 3692974,
+  "docType" : "ImageProxy",
+  "title" : "Harness racing in Hobart - the Inter Dominion",
+  "shortTeaserTitle" : "Harness racing in Hobart - the Inter Dominion",
+  "teaserTitle" : "Harness racing in Hobart - the Inter Dominion",
+  "bylinePlain" : "ABC TV",
+  "contentGenre" : "Current",
+  "firstPublishedDate" : "2011-11-24T07:14:07+00:00",
+  "lastPublishedDate" : "2011-11-24T07:14:07+00:00",
+  "byline" : "<p>ABC TV</p>",
+  "keywords" : "",
+  "version" : 2,
+  "importance" : 5,
+  "canonicalUrl" : "http://www.abc.net.au/news/2011-11-24/harness-racing-in-hobart---the-inter-dominion/3692974",
+  "rootNavigation" : {
+    "id" : 45902,
+    "segment" : "news",
+    "title" : "ABC News"
+  },
+  "alt" : "Harness racing in Hobart - the Inter Dominion",
+  "caption" : "<p>Police have made several arrests into a harness racing scandal.</p>",
+  "captionPlain" : "Police have made several arrests into a harness racing scandal.",
+  "media" : [ {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-4x3-thumbnail.jpg?v=2",
+    "width" : 160,
+    "height" : 120,
+    "size" : 1635,
+    "ratio" : "4x3"
+  }, {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-4x3-large.jpg?v=2",
+    "width" : 400,
+    "height" : 300,
+    "size" : 25057,
+    "ratio" : "4x3"
+  }, {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-16x9-thumbnail.jpg?v=2",
+    "width" : 160,
+    "height" : 90,
+    "size" : 2904,
+    "ratio" : "16x9"
+  }, {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-16x9-large.jpg?v=2",
+    "width" : 450,
+    "height" : 253,
+    "size" : 22691,
+    "ratio" : "16x9"
+  }, {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-1x1-thumbnail.jpg?v=2",
+    "width" : 160,
+    "height" : 160,
+    "size" : 4800,
+    "ratio" : "1x1"
+  }, {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-1x1-large.jpg?v=2",
+    "width" : 300,
+    "height" : 300,
+    "size" : 5378,
+    "ratio" : "1x1"
+  }, {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-3x2-thumbnail.jpg?v=2",
+    "width" : 160,
+    "height" : 107,
+    "size" : 3557,
+    "ratio" : "3x2"
+  }, {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-3x2-large.jpg?v=2",
+    "width" : 450,
+    "height" : 300,
+    "size" : 22435,
+    "ratio" : "3x2"
+  }, {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-3x4-thumbnail.jpg?v=2",
+    "width" : 160,
+    "height" : 213,
+    "size" : 5382,
+    "ratio" : "3x4"
+  }, {
+    "url" : "http://www.abc.net.au/cm/rimage/823012-3x4-large.jpg?v=2",
+    "width" : 225,
+    "height" : 300,
+    "size" : 15812,
+    "ratio" : "3x4"
+  } ]
+}
