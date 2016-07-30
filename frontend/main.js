@@ -28,20 +28,22 @@ function apiGet(reqType, reqID, callback) {
     xmlhttp.onreadystatechange = function() {
 	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var respParsed = JSON.parse(xmlhttp.responseText);
-            callback(respParsed);
+            callback(reqID, respParsed);
 	}
     };
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
 
-function addNode(nodeParsed) {
-    nodes.add({label: nodeParsed['teaserTitle']});
+function addNode(reqID, nodeParsed) {
+    nodes.add({id: reqID, label: nodeParsed['teaserTitle']});
 }
 
-function addAdjacent(resp) {
+function addAdjacent(reqID, resp) {
     for (var idx = 0; idx < resp['adjacent_nodes'].length; idx++) {
-	apiGet("content_of", resp['adjacent_nodes'][idx]['id'], addNode);
+	var nodeID = resp['adjacent_nodes'][idx]['id'];
+	apiGet("content_of", nodeID, addNode);
+	edges.add({from: reqID, to: nodeID});
     }
 }
 
