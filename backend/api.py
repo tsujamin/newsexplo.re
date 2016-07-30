@@ -17,8 +17,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Flask, jsonify
-app = Flask(__name__)
+from flask import jsonify
+from . import app
 
 @app.route('/api/')
 def hello_world():
