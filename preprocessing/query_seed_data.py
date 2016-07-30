@@ -15,22 +15,26 @@
 #   You should have received a copy of the GNU Affero General Public License
 #   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+import fileinput
 import argparse
 import requests
 
-DEFAULT_URL = "govhack2016.bgroberts.id.au/api/"
+DEFAULT_URL = "https://govhack2016.bgroberts.id.au/api/"
 DEFAULT_INFILE = None
+
 
 def main():
     args = parse_arguments()
     if args["in"] is None:
-        print("must provide --in")
-        quit()
-    
-    f = open(args["in"], "r")
-    for abc_id in f:
-	print(abc_id.strip())
+        read_function = fileinput.input
+    else:
+        f = open(args["in"], "r")
+        read_function = lambda: f
+
+    for abc_id in read_function():
+        print(abc_id.strip())
         requests.get(args["url"] + "content/abc/" + abc_id.strip())
+
 
 def parse_arguments():
     """
