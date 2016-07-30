@@ -240,5 +240,29 @@ class Adjacency(_db.Model):
         ret = _db.session.query(Adjacency).filter_by(from_node=self.from_node).filter_by(to_node=self.to_node).limit(1).first()
         return ret is not None
 
+
+class JustIn(_db.Model):
+    __tablename__ = "justin"
+    
+    id = _db.Column(_db.Integer, primary_key=True)
+    updated = _db.Column(_db.DateTime)
+
+    def __init__(self, _id, datetime):
+        self.id = int(_id)
+        self.updated = datetime
+
+    @staticmethod
+    def get_most_recent(count=10):
+        query = JustIn.query.order_by(JustIn.updated.desc())\
+                            .limit(count)\
+                            .all()
+        content = []
+
+        for just_in in query:
+            content.append(Content.get_or_create(just_in.id))
+
+        return content
+
+
 if len(_db.engine.table_names()) is 0:
     _db.create_all()
