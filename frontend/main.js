@@ -220,7 +220,10 @@ function handleSearchForm(event) {
     var match = regex.exec(data);
     if (match != null) {
 	nodes.clear();
-	apiGet("content/abc", match[3], addNode);
+	apiGet("content/abc", match[3], function(nodeID, resp) {
+	    addNode(nodeID, resp);
+	    expandNode({nodes: [nodeID]});
+	});
     } else {
 	$("#err_search").modal();
     }
@@ -239,8 +242,10 @@ function displayNodeInfo(event) {
 
 function loadABCJustInLatest() {
     apiGet("content/abc/just_in", "", function(nodeID, content) {
-	apiGet("content/abc", content[0]['id'], addNode);
-	apiGet("adjacency", content[0]['id'], addAdjacent);
+	apiGet("content/abc", content[0]['id'], function(nodeID, resp) {
+	    addNode(nodeID, resp);
+	    expandNode({nodes: [nodeID]});
+	});
     });
 }
 
@@ -260,6 +265,5 @@ function init() {
     network.on("deselectNode", shrinkNode);
     network.on("doubleClick", displayNodeInfo);
 
-    //    apiGet("content/abc", "3692950", addNode);
     loadABCJustInLatest();
 }
