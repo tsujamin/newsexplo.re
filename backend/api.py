@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import jsonify
+from flask import jsonify, Response
 from backend import app
 from backend.orm.models import Content, Adjacency
 from backend.settings import *
@@ -29,7 +29,7 @@ def hello_world():
 @app.route('/api/content/abc/<int:content_id>')
 def content_abc(content_id):
     content = Content.get_or_create(content_id)
-    return jsonify(content.get_data()) # TODO inefficient
+    return Response(content.json, mimetype="application/json")
 
 @app.route('/api/adjacency/<int:from_id>')
 def get_adjacency(from_id):
