@@ -22,21 +22,27 @@ var nodes = null;
 var edges = null;
 var network = null;
 
-function getNode(nodeType, nodeID, nodeDest) {
+function apiGet(reqType, reqID, callback) {
     var xmlhttp = new XMLHttpRequest();
-    var url = API_BASE + "/" + nodeType + "/" + nodeID + ".json";
+    var url = API_BASE + "/" + reqType + "/" + reqID + ".json";
     xmlhttp.onreadystatechange = function() {
 	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            var nodeParsed = JSON.parse(xmlhttp.responseText);
-            addNode(nodeDest, nodeParsed);
+            var respParsed = JSON.parse(xmlhttp.responseText);
+            callback(respParsed);
 	}
     };
     xmlhttp.open("GET", url, true);
     xmlhttp.send();
 }
 
-function addNode(nodeDest, nodeParsed) {
+function addNode(nodeParsed) {
     nodes.add({label: nodeParsed['teaserTitle']});
+}
+
+function addAdjacent(resp) {
+    for (node in resp['adjacent_nodes']) {
+	apiGet("content_of", node['id'], addNode);
+    }
 }
 
 function init() {
@@ -45,5 +51,6 @@ function init() {
     edges = new vis.DataSet();
     network = new vis.Network(container, {nodes: nodes, edges: edges}, OPTIONS);
 
-    getNode("content_of", "3692950", null);
+    apiGet("content_of", "3692950", addNode);
+    apiGet("adjacent_to", "3692950", addAdjacent);
 }
