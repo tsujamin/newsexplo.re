@@ -32,6 +32,8 @@ var nodes = null;
 var edges = null;
 var network = null;
 
+var nodeData = {};
+
 function loadSVGTemplate() {
     var xmlhttp = new XMLHttpRequest();
     var url = HTTP_BASE + "box_html.svg";
@@ -59,6 +61,7 @@ function apiGet(reqType, reqID, callback) {
 
 function addNode(reqID, nodeParsed) {
     nodes.add({id: reqID, shape: 'image', image: nodeSVG(nodeParsed), size: 70});
+    nodeData[reqID] = nodeParsed;
 }
 
 function addAdjacent(reqID, resp) {
@@ -121,6 +124,16 @@ function handleSearchForm(event) {
     event.preventDefault();
 }
 
+function displayNodeInfo(event) {
+    if (event['nodes'].length == 0)
+	return;
+
+    node = event['nodes'][0];
+
+    $("#infobox_title").text(nodeData[node]['title']);
+    $("#infobox").modal();
+}
+
 function init() {
     $("#welcomedialog").modal()
     $("#search_form").submit(handleSearchForm);
@@ -133,6 +146,7 @@ function init() {
 
     network.on("selectNode", expandNode);
     network.on("deselectNode", shrinkNode);
+    network.on("doubleClick", displayNodeInfo);
 
     apiGet("content/abc", "3692950", addNode);
 }

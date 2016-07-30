@@ -48,7 +48,7 @@
   <body onload="init();">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.js"></script>
     <script src="main.js"></script>
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -157,6 +157,25 @@
 	  </div>
 	  <div class="modal-body">
             <p><em>newsexplo.re</em> unlocks the world of news!</p>
+	  </div>
+	  <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	  </div>
+	</div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="infobox" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+	<!-- Modal content-->
+	<div class="modal-content">
+	  <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title" id="infobox_title"></h4>
+	  </div>
+	  <div class="modal-body">
+            
 	  </div>
 	  <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
