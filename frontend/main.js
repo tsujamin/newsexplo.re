@@ -240,6 +240,14 @@ function displayNodeInfo(event) {
     $("#infobox").modal();
 }
 
+function loadABCJustInLatest() {
+    apiGet("content/abc/just_in", "", function(nodeID, content) {
+	console.log(content);
+	apiGet("content/abc", content[0]['id'], addNode);
+	apiGet("adjacency", content[0]['id'], addAdjacent);
+    });
+}
+
 function init() {
     $("#welcomedialog").modal()
     $("#search_form").submit(handleSearchForm);
@@ -254,5 +262,6 @@ function init() {
     network.on("deselectNode", shrinkNode);
     network.on("doubleClick", displayNodeInfo);
 
-    apiGet("content/abc", "3692950", addNode);
+    //    apiGet("content/abc", "3692950", addNode);
+    loadABCJustInLatest();
 }
