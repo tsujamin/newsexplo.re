@@ -67,5 +67,4 @@ function init() {
     network.on("selectNode", expandNode);
 
     apiGet("content_of", "3692950", addNode);
-    apiGet("adjacent_to", "3692950", addAdjacent);
 }
