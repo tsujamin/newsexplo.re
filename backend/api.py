@@ -17,7 +17,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import jsonify, Response, abort, request
+import requests
+from flask import jsonify, Response, abort, request, stream_with_context
 from backend import app
 from backend.orm.models import Content, JustIn
 from backend.settings import *
@@ -25,6 +26,26 @@ from backend.settings import *
 @app.route('/api/')
 def hello_world():
     return 'Hello, World!'
+
+@app.route('/api/content/abc/imageproxy/<int:content_id>')
+def content_abc_imageproxy(content_id):
+    try:
+        content = Content.get_or_create(content_id)
+    except:
+        abort(404)
+
+    if content.docType != "Image" && content.docType != "ImageProxy":
+        abort(400)
+
+    try:
+        obj = json.loads(content.json)
+        url = obj['media'][0]['url']
+    except:
+        abort(500)
+
+    req = requests.get(url, stream = True)
+    return Response(stream_with_context(req.iter_content()),
+                    content_type = req.headers['content-type'])
 
 @app.route('/api/content/abc/<int:content_id>')
 def content_abc(content_id):
