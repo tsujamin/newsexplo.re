@@ -42,9 +42,20 @@ function addNode(reqID, nodeParsed) {
 function addAdjacent(reqID, resp) {
     for (var idx = 0; idx < resp['adjacent_nodes'].length; idx++) {
 	var nodeID = resp['adjacent_nodes'][idx]['id'];
-	apiGet("content_of", nodeID, addNode);
-	edges.add({from: reqID, to: nodeID});
+	if (!nodes.get(nodeID))
+	    apiGet("content_of", nodeID, addNode);
+	var existingEdges = edges.get({
+	    filter: function(item) {
+		return (item.from == reqID && item.to == nodeID ||
+		       item.to == reqID && item.from == nodeID);
+	    }});
+	if (existingEdges.length == 0)
+	    edges.add({from: reqID, to: nodeID});
     }
+}
+
+function expandNode(params) {
+    apiGet("adjacent_to", params['nodes'][0], addAdjacent);
 }
 
 function init() {
@@ -52,6 +63,8 @@ function init() {
     nodes = new vis.DataSet();
     edges = new vis.DataSet();
     network = new vis.Network(container, {nodes: nodes, edges: edges}, OPTIONS);
+
+    network.on("selectNode", expandNode);
 
     apiGet("content_of", "3692950", addNode);
     apiGet("adjacent_to", "3692950", addAdjacent);
