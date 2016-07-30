@@ -100,6 +100,8 @@ function expandNode(params) {
     node = nodes.get(nodeID);
     node.size = 150;
     nodes.update(node);
+
+    pruneNodes(nodeID);
 }
 
 function shrinkNode(params) {
@@ -107,6 +109,41 @@ function shrinkNode(params) {
     node = nodes.get(nodeID);
     node.size = 70;
     nodes.update(node);
+}
+
+// This is buggy as heck. Oh well.
+function pruneNodes(selectedNode) {
+    var current = selectedNode.toString();
+    var distances = {};
+    var visited = [current];
+    var connected;
+    distances[current] = 0;
+    while (true) {
+	connected = network.getConnectedNodes(current);
+	for (var idx = 0; idx < connected.length; idx++) {
+	    if (!(connected[idx] in distances) || (distances[current] + 1 < distances[connected[idx]])) {
+		distances[connected[idx]] = distances[current] + 1;
+	    }
+	}
+	visited.push(current);
+	var new_current;
+	var new_current_distance = 0;
+	nodes.forEach(function(item) {
+	    if (visited.indexOf(item.id) != -1) return;
+	    if (!(item.id in distances)) return;
+	    if (distances[item.id] < new_current_distance || new_current_distance == 0) {
+		new_current_distance = distances[item.id];
+		new_current = item.id;
+	    }
+	});
+	if (new_current_distance == 0) break;
+	current = new_current;
+    }
+
+    nodes.forEach(function(item) {
+	if (distances[item.id] > 2 || !(item.id in distances))
+	    nodes.remove(item.id);
+    });
 }
 
 function handleSearchForm(event) {
