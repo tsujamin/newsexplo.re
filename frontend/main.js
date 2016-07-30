@@ -15,12 +15,34 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var API_BASE = "https://govhack.bgroberts.id.au/api";
-var OPTIONS = {}
+var HTTP_BASE = "";
+var API_BASE = "https://newsexplo.re/api";
+var OPTIONS = {
+    physics: {
+	forceAtlas2Based: {
+	    springLength: 500
+	},
+	solver: 'forceAtlas2Based'
+    }
+}
+var DOMURL = window.URL || window.webkitURL || window;
+var SVG_TEMPLATE = null;
 
 var nodes = null;
 var edges = null;
 var network = null;
+
+function loadSVGTemplate() {
+    var xmlhttp = new XMLHttpRequest();
+    var url = HTTP_BASE + "box_html.svg";
+    xmlhttp.onreadystatechange = function() {
+	if (xmlhttp.readyState == 4 && xmlhttp.responseText != null) {
+	    SVG_TEMPLATE = xmlhttp.responseText;
+	}
+    };
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
 
 function apiGet(reqType, reqID, callback) {
     var xmlhttp = new XMLHttpRequest();
@@ -36,7 +58,7 @@ function apiGet(reqType, reqID, callback) {
 }
 
 function addNode(reqID, nodeParsed) {
-    nodes.add({id: reqID, label: nodeParsed['title']});
+    nodes.add({id: reqID, shape: 'image', image: nodeSVG(nodeParsed), size: 50});
 }
 
 function addAdjacent(reqID, resp) {
@@ -54,8 +76,34 @@ function addAdjacent(reqID, resp) {
     }
 }
 
+function nodeSVG(nodeParsed) {
+    if (SVG_TEMPLATE == null) {
+	setTimeout(function() {
+	    nodeSVG(nodeParsed);
+	}, 100);
+	return;
+    }
+    var data = SVG_TEMPLATE;
+    data = data.replace("$BODY_TEXT$", "<h1>" + nodeParsed['title'] + "</h1>");
+    var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
+    var url = DOMURL.createObjectURL(svg);
+    return url;
+}
+
 function expandNode(params) {
-    apiGet("adjacency", params['nodes'][0], addAdjacent);
+    nodeID = params['nodes'][0];
+    apiGet("adjacency", nodeID, addAdjacent);
+
+    node = nodes.get(nodeID);
+    node.size = 100;
+    nodes.update(node);
+}
+
+function shrinkNode(params) {
+    nodeID = params['previousSelection']['nodes'][0];
+    node = nodes.get(nodeID);
+    node.size = 50;
+    nodes.update(node);
 }
 
 function init() {
@@ -64,7 +112,10 @@ function init() {
     edges = new vis.DataSet();
     network = new vis.Network(container, {nodes: nodes, edges: edges}, OPTIONS);
 
+    loadSVGTemplate();
+
     network.on("selectNode", expandNode);
+    network.on("deselectNode", shrinkNode);
 
     apiGet("content/abc", "3692950", addNode);
 }
