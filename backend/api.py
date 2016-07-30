@@ -19,7 +19,7 @@
 
 from flask import jsonify, Response, abort, request
 from backend import app
-from backend.orm.models import Content
+from backend.orm.models import Content, JustIn
 from backend.settings import *
 
 @app.route('/api/')
@@ -34,6 +34,12 @@ def content_abc(content_id):
         abort(404)
 
     return Response(content.json, mimetype="application/json")
+
+@app.route('/api/content/abc_just_in/')
+def conent_abc_just_in():
+    limit = request.args["limit"] if "limit" in request.args else BACKEND_JUST_IN_QUERY_LIMIT
+
+    return jsonify([content.json for content in JustIn.get_most_recent(limit)])
 
 @app.route('/api/adjacency/<int:from_id>')
 def get_adjacency(from_id):
