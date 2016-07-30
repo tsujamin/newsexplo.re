@@ -42,26 +42,41 @@ class Content(_db.Model):
         else:
             return Content(id)
 
-    def __init__(self, _id):
+    def __init__(self, _id, fake_content=False, docType=None, title=None):
         """Initialise a new Content object, populate it's fields from the ABC API, save any adjacent nodes and commit"""
         self.id = int(_id)
 
-        self._populate_from_abc()
+        if not fake_content:
+            # If it's real content, and not A fake like topics and locations, populate the data
+            self._populate_from_abc()
+        else:
+            # if it is fake, populate with the provided fields
+            if docType is None or title is None:
+                _db.session.rollback()
+                raise ValueError("Tried to create fake conten {} without providing docType and title".format(self.id))
+
+            self.docType = docType
+            self.title = title
+            self.json = json.dumps({"id": self.id, "docType": self.docType, "title": self.title})
+
 
         if not self.exists():
             _db.session.add(self)
 
-        self._populate_adjacencies()
+        if not fake_content:
+            # only real content has adjacencies
+            self._populate_adjacencies()
 
-        _db.session.commit()
+            # only top-most level article should be real API data, so only call commit for these
+            _db.session.commit()
 
     def exists(self):
         """returns whether object already exists in database"""
-        res = Content.query.filter_by(id=self.id).limit(1).first()
+        res = _db.session.query(Content).filter_by(id=self.id).limit(1).first()
         return res is not None
 
     def _populate_from_abc(self):
-        """populates the Content instance's fields from the ABC api
+        """populates the Content instance's fields from the ABC API
         :returns: true if population was successful
         """
         response = requests.get(ABC_API_URL.format(self.id))
@@ -82,8 +97,8 @@ class Content(_db.Model):
 
     def _populate_adjacencies(self):
         """
-
-        :return:
+        builds a set of topics, articles and locations "adjacent" to this piece of content
+        :return: [(from_node, to_node, relationship)]
         """
         adjacent_set = set()
         json_obj = self.get_data()
@@ -99,16 +114,35 @@ class Content(_db.Model):
 
         if "subject" in json_obj:
             for subject in json_obj["subject"]:
+                # If the subject is well formed, try add it to the content table as a fake entry
+                if "id" not in subject or "name" not in subject:
+                    _db.session.rollback()
+                    raise KeyError("Subject {} missing id or name".format(subject))
+                else:
+                    Content(subject["id"], fake_content=True, docType="subject", title=subject["name"])
+
+                # Recurse to process the locations adjacencies
                 adjacent_set = adjacent_set.union(Content.collate_nested_relationships( self.id,
                                                                                         "subject",
                                                                                         subject))
+
         if "location" in json_obj:
             for location in json_obj["location"]:
+                # If the location is well formed, try add it to the content table as a fake entry
+                if "id" not in location or "name" not in location:
+                    _db.session.rollback()
+                    raise KeyError("Location {} missing id or name".format(subject))
+                else:
+                    Content(location["id"], fake_content=True, docType="location", title=location["name"])
+
+                # Recurse to the process the locations adjacencies
                 adjacent_set = adjacent_set.union(Content.collate_nested_relationships( self.id,
                                                                                         "location",
                                                                                         location))
         for (to_node, from_node, relationship) in adjacent_set:
+            # Create and store an Adjacency for each unique edge in the set
             adjacency = Adjacency(from_node, to_node, relationship)
+
             if not adjacency.exists():
                 _db.session.add(adjacency)
 
@@ -155,12 +189,12 @@ class Adjacency(_db.Model):
 
     def __init__(self, _from_node, _to_node, _relationship):
         self.from_node = _from_node
-        self.to_node = _to_node,
+        self.to_node = _to_node
         self.relationship = _relationship
 
     def exists(self):
         """checks if adjacency is already in database"""
-        ret = Adjacency.query.filter_by(from_node=self.from_node).filter_by(to_node=self.to_node).limit(1).first()
+        ret = _db.session.query(Adjacency).filter_by(from_node=self.from_node).filter_by(to_node=self.to_node).limit(1).first()
         return ret is not None
 
 if len(_db.engine.table_names()) is 0:
