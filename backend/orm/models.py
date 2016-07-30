@@ -19,7 +19,6 @@
 from backend.orm import db_context
 import requests
 import json
-from sqlalchemy import exists
 
 ABC_API_URL = "https://content-api-govhack.abc-prod.net.au/v1/{}"
 
@@ -53,7 +52,7 @@ class Content(_db.Model):
             # if it is fake, populate with the provided fields
             if docType is None or title is None:
                 _db.session.rollback()
-                raise ValueError("Tried to create fake conten {} without providing docType and title".format(self.id))
+                raise ValueError("Tried to create fake content {} without providing docType and title".format(self.id))
 
             self.docType = docType
             self.title = title

@@ -30,7 +30,7 @@ def db_connect():
                                                    SQLALCHEMY_DATABASE)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = url
-    app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_ECHO'] = False
 
     return SQLAlchemy(app)
 
