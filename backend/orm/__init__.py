@@ -31,6 +31,7 @@ def db_connect():
 
     app.config['SQLALCHEMY_DATABASE_URI'] = url
     app.config['SQLALCHEMY_ECHO'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     return SQLAlchemy(app)
 
