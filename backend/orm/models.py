@@ -34,6 +34,14 @@ class Content(_db.Model):
     title = _db.Column(_db.String)
     json = _db.Column(_db.String)
 
+    @staticmethod
+    def get_or_create(id):
+        cached = Content.query.get(int(id))
+        if cached is not None:
+            return cached
+        else:
+            return Content(id)
+
     def __init__(self, _id):
         """Initialise a new Content object, populate it's fields from the ABC API, save any adjacent nodes and commit"""
         self.id = int(_id)

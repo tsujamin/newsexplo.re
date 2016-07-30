@@ -34,7 +34,7 @@ def content_abc(content_id):
 
 @app.route('/api/adjacency/<int:from_id>')
 def get_adjacency(from_id):
-    content = Content(from_id)
+    content = Content.get_or_create(from_id)
     adjacencies = db_context.session.query(Adjacency).filter(
         or_(Adjacency.from_node==from_id, Adjacency.to_node==from_id)).all()
     print(adjacencies)
@@ -43,9 +43,9 @@ def get_adjacency(from_id):
     for adjacency in adjacencies:
         try:
             if adjacency.from_node == from_id:
-                new_node = Content(adjacency.to_node)
+                new_node = Content.get_or_create(adjacency.to_node)
             else:
-                new_node = Content(adjacency.from_node)
+                new_node = Content.get_or_create(adjacency.from_node)
 
                 result['adjacent_nodes'].append(
                     {'id': new_node.id,
