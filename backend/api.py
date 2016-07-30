@@ -43,11 +43,11 @@ def get_adjacency(from_id):
         else:
             new_node = Content.get_or_create(adjacency.from_node)
 
-            result['adjacent_nodes'].append(
-                {'id': new_node.id,
-                 'docType': new_node.docType,
-                 'title':new_node.title
-                })
+        result['adjacent_nodes'].append(
+            {'id': new_node.id,
+             'docType': new_node.docType,
+             'title':new_node.title
+            })
 
     return jsonify(result)
 
