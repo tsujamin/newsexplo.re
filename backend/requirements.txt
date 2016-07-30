@@ -1,20 +1,11 @@
-# requirements.txt - list of package requirements for use with pip
-
-# Copyright (C) 2016 Benjamin Roberts, Andrew Donnellan
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published
-# by the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
-#
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
+beautifulsoup4==4.5.0
+bs4==0.0.1
+click==6.6
+feedparser==5.2.1
 Flask==0.11.1
-Flask-SQLAlchemy==2.1
-Celery==3.1.23
+gunicorn==19.6.0
+itsdangerous==0.24
+Jinja2==2.8
+MarkupSafe==0.23
+requests==2.10.0
+Werkzeug==0.11.10

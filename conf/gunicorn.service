@@ -1,0 +1,16 @@
+[Unit]
+Description=gunicorn daemon
+After=network.target
+
+[Service]
+PIDFile=/tmp/gunicorn.pid
+User=govhack
+Group=govhack
+WorkingDirectory=/srv/govhack2016/backend
+ExecStart=/usr/bin/bash -c "cd /srv/govhack2016; source bin/activate; cd backend; gunicorn --timeout 60 --workers 4 --pid /tmp/gunicorn.pid wsgi:app"
+ExecReload=/bin/kill -s HUP $MAINPID
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
