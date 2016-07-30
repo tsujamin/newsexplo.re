@@ -147,7 +147,6 @@ function nodeSVG(nodeParsed) {
     if ('teaserTextPlain' in nodeParsed) {
 	nodeBody += '<p style="font-family: sans-serif;">' + nodeParsed['teaserTextPlain'].substring(0, 50) + '...</p>';
     }
-    console.log(nodeBody);
     var data = SVG_TEMPLATE;
     data = data.replace("$BODY_TEXT$", nodeBody);
     var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
@@ -219,8 +218,6 @@ function handleSearchForm(event) {
     var data = $('#srch-term')[0].value;
     var regex = /(http:\/\/)?(www.)?abc.net.au\/news\/.*\/([0-9]+)/;
     var match = regex.exec(data);
-    console.log(data);
-    console.log(match);
     if (match != null) {
 	nodes.clear();
 	apiGet("content/abc", match[3], addNode);
@@ -242,13 +239,14 @@ function displayNodeInfo(event) {
 
 function loadABCJustInLatest() {
     apiGet("content/abc/just_in", "", function(nodeID, content) {
-	console.log(content);
 	apiGet("content/abc", content[0]['id'], addNode);
 	apiGet("adjacency", content[0]['id'], addAdjacent);
     });
 }
 
 function init() {
+    console.log("RETICULATING SPLINES...");
+    console.log("(why are you reading this? go away! don't look at our terrible JavaScript!)");
     $("#welcomedialog").modal()
     $("#search_form").submit(handleSearchForm);
     var container = document.getElementById('network');
