@@ -1,4 +1,6 @@
-# app.py - main application
+#!/usr/bin/env python3
+
+# api.py - main application
 
 # Copyright (C) 2016 Benjamin Roberts, Andrew Donnellan
 #
@@ -21,8 +23,6 @@ app = Flask(__name__)
 @app.route('/api/')
 def hello_world():
     return 'Hello, World!'
-
-
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1")
