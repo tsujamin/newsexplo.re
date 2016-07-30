@@ -110,6 +110,7 @@ function expandNode(params) {
     nodes.update(node);
 
     pruneNodes(nodeID);
+    // TODO: maybe actively-deselect anything that's left
 }
 
 function shrinkNode(params) {
