@@ -36,7 +36,7 @@ function apiGet(reqType, reqID, callback) {
 }
 
 function addNode(reqID, nodeParsed) {
-    nodes.add({id: reqID, label: nodeParsed['teaserTitle']});
+    nodes.add({id: reqID, label: nodeParsed['title']});
 }
 
 function addAdjacent(reqID, resp) {
