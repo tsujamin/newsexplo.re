@@ -34,7 +34,7 @@ def content_abc_imageproxy(content_id):
     except:
         abort(404)
 
-    if content.docType != "Image" && content.docType != "ImageProxy":
+    if content.docType != "Image" and content.docType != "ImageProxy":
         abort(400)
 
     try:
