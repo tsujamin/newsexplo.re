@@ -170,6 +170,8 @@ function expandNode(params) {
     node = nodes.get(nodeID);
     node.size = 150;
     nodes.update(node);
+
+    displayNodeInfo(nodeID);
 }
 
 function shrinkNode(params) {
@@ -177,6 +179,9 @@ function shrinkNode(params) {
     node = nodes.get(nodeID);
     node.size = 70;
     nodes.update(node);
+
+    if (params['nodes'].length == 0)
+	$('#infobox').hide(300);
 }
 
 // This is buggy as heck. Oh well.
@@ -230,14 +235,9 @@ function handleSearchForm(event) {
     event.preventDefault();
 }
 
-function displayNodeInfo(event) {
-    if (event['nodes'].length == 0)
-	return;
-
-    node = event['nodes'][0];
-
-    $("#infobox_title").text(nodeData[node]['title']);
-    $("#infobox").modal();
+function displayNodeInfo(nodeID) {
+    $("#infobox_title").text(nodeData[nodeID]['title']);
+    $("#infobox").show(300);
 }
 
 function loadABCJustInLatest() {
@@ -263,7 +263,6 @@ function init() {
 
     network.on("selectNode", expandNode);
     network.on("deselectNode", shrinkNode);
-    network.on("doubleClick", displayNodeInfo);
 
     loadABCJustInLatest();
 }
