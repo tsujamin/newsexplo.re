@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import jsonify, Response
+from flask import jsonify, Response, abort
 from backend import app
 from backend.orm.models import Content, Adjacency
 from backend.settings import *
@@ -28,12 +28,21 @@ def hello_world():
 
 @app.route('/api/content/abc/<int:content_id>')
 def content_abc(content_id):
-    content = Content.get_or_create(content_id)
+    try:
+        content = Content.get_or_create(content_id)
+    except:
+        abort(404)
+
     return Response(content.json, mimetype="application/json")
 
 @app.route('/api/adjacency/<int:from_id>')
 def get_adjacency(from_id):
-    content = Content.get_or_create(from_id)
+    try:
+        content = Content.get_or_create(from_id)
+    except:
+        # we only catch 404 here as later Content calls only refer to existing instances
+        abort(404)
+
     adjacencies = content.get_adjacency_sample(BACKEND_ADJACENCY_QUERY_LIMIT)
     result = {'id': from_id, 'docType': content.docType, 'title': content.title}
     result['adjacent_nodes'] = []
