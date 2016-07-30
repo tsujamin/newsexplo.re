@@ -29,7 +29,7 @@ def hello_world():
 
 @app.route('/api/content/abc/<int:content_id>')
 def content_abc(content_id):
-    content = Content(content_id)
+    content = Content.get_or_create(content_id)
     return jsonify(content.get_data()) # TODO inefficient
 
 @app.route('/api/adjacency/<int:from_id>')
