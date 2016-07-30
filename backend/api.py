@@ -17,12 +17,20 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Flask
+from flask import Flask, jsonify
 app = Flask(__name__)
 
 @app.route('/api/')
 def hello_world():
     return 'Hello, World!'
+
+@app.route('/api/content/abc/<int:content_id>')
+def content_abc(content_id):
+    return jsonify({'banana': 72})
+
+@app.route('/api/adjacency/<int:from_id>')
+def get_adjacency(from_id):
+    return jsonify({'apple': 57})
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1")
