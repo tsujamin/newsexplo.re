@@ -157,14 +157,20 @@ function nodeSVG(nodeParsed) {
 
 function expandNode(params) {
     nodeID = params['nodes'][0];
-    apiGet("adjacency", nodeID, addAdjacent);
+    // make sure we're the only ones selected
+    network.unselectAll();
+    network.selectNodes([nodeID]);
 
+    pruneNodes(nodeID);
+    nodes.forEach(function(item) {
+	item.size = 70;
+	nodes.update(item);
+    });
+
+    apiGet("adjacency", nodeID, addAdjacent);
     node = nodes.get(nodeID);
     node.size = 150;
     nodes.update(node);
-
-    pruneNodes(nodeID);
-    // TODO: maybe actively-deselect anything that's left
 }
 
 function shrinkNode(params) {
