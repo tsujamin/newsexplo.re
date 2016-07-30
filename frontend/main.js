@@ -24,7 +24,7 @@ var network = null;
 
 function apiGet(reqType, reqID, callback) {
     var xmlhttp = new XMLHttpRequest();
-    var url = API_BASE + "/" + reqType + "/" + reqID + ".json";
+    var url = API_BASE + "/" + reqType + "/" + reqID;
     xmlhttp.onreadystatechange = function() {
 	if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
             var respParsed = JSON.parse(xmlhttp.responseText);
