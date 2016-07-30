@@ -19,6 +19,7 @@
 
 from flask import jsonify
 from . import app
+from .orm.models import Content
 
 @app.route('/api/')
 def hello_world():
@@ -26,7 +27,8 @@ def hello_world():
 
 @app.route('/api/content/abc/<int:content_id>')
 def content_abc(content_id):
-    return jsonify({'banana': 72})
+    content = Content(content_id)
+    return jsonify(content.get_data()) # TODO inefficient
 
 @app.route('/api/adjacency/<int:from_id>')
 def get_adjacency(from_id):
