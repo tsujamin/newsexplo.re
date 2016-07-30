@@ -58,7 +58,7 @@ function apiGet(reqType, reqID, callback) {
 }
 
 function addNode(reqID, nodeParsed) {
-    nodes.add({id: reqID, shape: 'image', image: nodeSVG(nodeParsed), size: 50});
+    nodes.add({id: reqID, shape: 'image', image: nodeSVG(nodeParsed), size: 70});
 }
 
 function addAdjacent(reqID, resp) {
@@ -95,18 +95,35 @@ function expandNode(params) {
     apiGet("adjacency", nodeID, addAdjacent);
 
     node = nodes.get(nodeID);
-    node.size = 100;
+    node.size = 150;
     nodes.update(node);
 }
 
 function shrinkNode(params) {
     nodeID = params['previousSelection']['nodes'][0];
     node = nodes.get(nodeID);
-    node.size = 50;
+    node.size = 70;
     nodes.update(node);
 }
 
+function handleSearchForm(event) {
+    var data = $('#srch-term')[0].value;
+    var regex = /(http:\/\/)?(www.)?abc.net.au\/news\/.*\/([0-9]+)/;
+    var match = regex.exec(data);
+    console.log(data);
+    console.log(match);
+    if (match != null) {
+	nodes.clear();
+	apiGet("content/abc", match[3], addNode);
+    } else {
+	$("#err_search").modal();
+    }
+    event.preventDefault();
+}
+
 function init() {
+    $("#welcomedialog").modal()
+    $("#search_form").submit(handleSearchForm);
     var container = document.getElementById('network');
     nodes = new vis.DataSet();
     edges = new vis.DataSet();

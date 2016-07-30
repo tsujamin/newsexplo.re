@@ -15,8 +15,46 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+html, body {
+    height: 100%;
+}
+
 #network {
-    width: 800px;
-    height: 800px;
+    width: 100%;
+    height: 100%;
     border: 1px solid lightgray;
+}
+
+#mainbody {
+    height: 100%;
+}
+
+
+
+.navbar-brand {
+    height: 60px;
+}
+
+.navbar-nav>li>a {
+    padding: 20px;
+}
+
+body {
+    padding-top: 60px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. */
+}
+
+.hero-spacer {
+    margin-top: 50px;
+}
+
+.hero-feature {
+    margin-bottom: 30px;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+.navbar-collapse>div {
+    padding: 5px;
 }
