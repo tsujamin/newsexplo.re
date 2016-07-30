@@ -17,9 +17,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import jsonify, Response, abort
+from flask import jsonify, Response, abort, request
 from backend import app
-from backend.orm.models import Content, Adjacency
+from backend.orm.models import Content
 from backend.settings import *
 
 @app.route('/api/')
@@ -43,7 +43,12 @@ def get_adjacency(from_id):
         # we only catch 404 here as later Content calls only refer to existing instances
         abort(404)
 
-    adjacencies = content.get_adjacency_sample(BACKEND_ADJACENCY_QUERY_LIMIT)
+    #params for get_adjacency_sample
+    adj_limit = int(request.args["limit"]) if "limit" in request.args else BACKEND_ADJACENCY_QUERY_LIMIT
+    adj_doctype = request.args["docType"] if "docType" in request.args else None
+
+    adjacencies = content.get_adjacency_sample(limit=adj_limit, docType=adj_doctype)
+
     result = {'id': from_id, 'docType': content.docType, 'title': content.title}
     result['adjacent_nodes'] = []
     for adjacency in adjacencies:

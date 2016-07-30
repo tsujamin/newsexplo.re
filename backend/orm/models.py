@@ -178,24 +178,33 @@ class Content(_db.Model):
 
         return self.json_obj
 
-    def get_adjacency_sample(self, count=20):
-        location_count = int(count/4)
-        subject_count = int(count/4)
-        related_count = count - location_count - subject_count
+    def get_adjacency_sample(self, limit=20, docType=None):
+        location_count = int(limit/4)
+        subject_count = int(limit/4)
+        related_count = limit - location_count - subject_count
 
-        return self._adjacent_query("location", location_count) +\
-               self._adjacent_query("subject", subject_count) +\
-               self._adjacent_query("related", related_count)
+        return self._adjacent_query("location", location_count, docType=docType) +\
+               self._adjacent_query("subject", subject_count, docType=docType) +\
+               self._adjacent_query("related", related_count, docType=docType)
 
-    def _adjacent_query(self, relationship, limit):
-        # Get the `limit` most recent adjacencies leaving this content
-        from_query = Adjacency.query.filter_by(relationship=relationship, from_node=self.id)\
-                                    .order_by(Adjacency.to_node.desc())\
-                                    .limit(limit)\
-                                    .all()
-        # Get the `limit most recent adjacencies arriving at this content
-        top_query = Adjacency.query.filter_by(relationship=relationship, to_node=self.id)\
-                                   .order_by(Adjacency.from_node.desc())\
+    def _adjacent_query(self, relationship, limit, docType=None):
+        # Get the adjacent content in either direction
+        from_query = Adjacency.query.filter_by(relationship=relationship, from_node=self.id)
+        to_query = Adjacency.query.filter_by(relationship=relationship, to_node=self.id)
+
+        # Filter to particular docType's if required if required
+        if docType is not None:
+            from_query = from_query.join(Content, Content.id==Adjacency.to_node)\
+                                   .filter(Content.docType == docType)
+
+            to_query = to_query.join(Content, Content.id==Adjacency.from_node)\
+                               .filter(Content.docType == docType)
+
+        # Filter the queries in descending ID order (most recent first?)
+        from_query = from_query.order_by(Adjacency.to_node.desc())\
+                               .limit(limit)\
+                               .all()
+        to_query = to_query.order_by(Adjacency.from_node.desc())\
                                    .limit(limit)\
                                    .all()
 
@@ -204,7 +213,7 @@ class Content(_db.Model):
         for adj in from_query:
             adj_list[adj.to_node] = adj
 
-        for adj in top_query:
+        for adj in to_query:
             adj_list[adj.from_node] = adj
 
         # Get the `limit` highest ids of both querys
