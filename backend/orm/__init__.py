@@ -17,9 +17,9 @@
 #
 
 from flask_sqlalchemy import SQLAlchemy
-from ..api import app
+from backend import app
 
-from ..settings import *
+from backend.settings import *
 
 def db_connect():
     '''Connects to the postgres backend'''

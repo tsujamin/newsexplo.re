@@ -18,8 +18,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from flask import jsonify
-from . import app
-from .orm.models import Content
+from backend import app
+from backend.orm.models import Content
 
 @app.route('/api/')
 def hello_world():
