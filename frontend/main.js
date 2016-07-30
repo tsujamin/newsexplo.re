@@ -40,8 +40,8 @@ function addNode(nodeParsed) {
 }
 
 function addAdjacent(resp) {
-    for (node in resp['adjacent_nodes']) {
-	apiGet("content_of", node['id'], addNode);
+    for (var idx = 0; idx < resp['adjacent_nodes'].length; idx++) {
+	apiGet("content_of", resp['adjacent_nodes'][idx]['id'], addNode);
     }
 }
 
