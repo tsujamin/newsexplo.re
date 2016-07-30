@@ -37,7 +37,6 @@ def get_adjacency(from_id):
     content = Content.get_or_create(from_id)
     adjacencies = db_context.session.query(Adjacency).filter(
         or_(Adjacency.from_node==from_id, Adjacency.to_node==from_id)).all()
-    print(adjacencies)
     result = {'id': from_id, 'docType': content.docType, 'title': content.title}
     result['adjacent_nodes'] = []
     for adjacency in adjacencies:
