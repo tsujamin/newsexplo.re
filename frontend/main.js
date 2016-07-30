@@ -15,7 +15,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var API_BASE = "https://govhack.bgroberts.id.au/mock_api";
+var API_BASE = "https://govhack.bgroberts.id.au/api";
 var OPTIONS = {}
 
 var nodes = null;
@@ -43,7 +43,7 @@ function addAdjacent(reqID, resp) {
     for (var idx = 0; idx < resp['adjacent_nodes'].length; idx++) {
 	var nodeID = resp['adjacent_nodes'][idx]['id'];
 	if (!nodes.get(nodeID))
-	    apiGet("content_of", nodeID, addNode);
+	    apiGet("content/abc", nodeID, addNode);
 	var existingEdges = edges.get({
 	    filter: function(item) {
 		return (item.from == reqID && item.to == nodeID ||
@@ -55,7 +55,7 @@ function addAdjacent(reqID, resp) {
 }
 
 function expandNode(params) {
-    apiGet("adjacent_to", params['nodes'][0], addAdjacent);
+    apiGet("adjacency", params['nodes'][0], addAdjacent);
 }
 
 function init() {
