@@ -86,8 +86,16 @@ function nodeSVG(nodeParsed) {
 	}, 100);
 	return;
     }
+
+    var title = nodeParsed['title'].length > 30 ? nodeParsed['title'].substring(0, 27) + '...' : nodeParsed['title'];
+
+    var nodeBody = '<h1 style="font-family: sans-serif; max-height: 100px;">' + title + '</h1>';
+    if ('teaserTextPlain' in nodeParsed) {
+	nodeBody += '<p style="font-family: sans-serif;">' + nodeParsed['teaserTextPlain'].substring(0, 50) + '...</p>';
+    }
+
     var data = SVG_TEMPLATE;
-    data = data.replace("$BODY_TEXT$", "<h1>" + nodeParsed['title'] + "</h1>");
+    data = data.replace("$BODY_TEXT$", nodeBody);
     var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
     var url = DOMURL.createObjectURL(svg);
     return url;
