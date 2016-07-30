@@ -18,6 +18,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import requests
+import json
 from flask import jsonify, Response, abort, request, stream_with_context
 from backend import app
 from backend.orm.models import Content, JustIn
