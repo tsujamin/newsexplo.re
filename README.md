@@ -1,7 +1,7 @@
-# govhack2016
+![newsexplo.re](frontend/logo_32pxh.png?raw=true)
+# newsexplo.re - a GovHack 2016 project
 
-Copyright
-=========
+## Copyright
 
 Copyright © 2016 Benjamin Roberts, Andrew Donnellan
 
