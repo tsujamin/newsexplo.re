@@ -66,5 +66,5 @@ function init() {
 
     network.on("selectNode", expandNode);
 
-    apiGet("content_of", "3692950", addNode);
+    apiGet("content/abc", "3692950", addNode);
 }
