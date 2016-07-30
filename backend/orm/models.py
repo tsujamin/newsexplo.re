@@ -178,6 +178,41 @@ class Content(_db.Model):
 
         return self.json_obj
 
+    def get_adjacency_sample(self, count=20):
+        location_count = int(count/4)
+        subject_count = int(count/4)
+        related_count = count - location_count - subject_count
+
+        return self._adjacent_query("location", location_count) +\
+               self._adjacent_query("subject", subject_count) +\
+               self._adjacent_query("related", related_count)
+
+    def _adjacent_query(self, relationship, limit):
+        # Get the `limit` most recent adjacencies leaving this content
+        from_query = Adjacency.query.filter_by(relationship=relationship, from_node=self.id)\
+                                    .order_by(Adjacency.to_node.desc())\
+                                    .limit(limit)\
+                                    .all()
+        # Get the `limit most recent adjacencies arriving at this content
+        top_query = Adjacency.query.filter_by(relationship=relationship, to_node=self.id)\
+                                   .order_by(Adjacency.from_node.desc())\
+                                   .limit(limit)\
+                                   .all()
+
+        # add all the adjacencys to a dict for sorting
+        adj_list = {}
+        for adj in from_query:
+            adj_list[adj.to_node] = adj
+
+        for adj in top_query:
+            adj_list[adj.from_node] = adj
+
+        # Get the `limit` highest ids of both querys
+        top_ids = sorted(adj_list.keys(),reverse=True)[:limit]
+
+        # Return the list of the corresponding Adjacency objects
+        return [v for k, v in adj_list.items() if k in top_ids]
+
 
 class Adjacency(_db.Model):
     __tablename__ = "adjacency"

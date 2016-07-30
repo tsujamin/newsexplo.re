@@ -18,10 +18,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from flask import jsonify
-from sqlalchemy import or_
 from backend import app
 from backend.orm.models import Content, Adjacency
-from backend.orm import db_context
+from backend.settings import *
 
 @app.route('/api/')
 def hello_world():
@@ -35,24 +34,20 @@ def content_abc(content_id):
 @app.route('/api/adjacency/<int:from_id>')
 def get_adjacency(from_id):
     content = Content.get_or_create(from_id)
-    adjacencies = db_context.session.query(Adjacency).filter(
-        or_(Adjacency.from_node==from_id, Adjacency.to_node==from_id)).all()
+    adjacencies = content.get_adjacency_sample(BACKEND_ADJACENCY_QUERY_LIMIT)
     result = {'id': from_id, 'docType': content.docType, 'title': content.title}
     result['adjacent_nodes'] = []
     for adjacency in adjacencies:
-        try:
-            if adjacency.from_node == from_id:
-                new_node = Content.get_or_create(adjacency.to_node)
-            else:
-                new_node = Content.get_or_create(adjacency.from_node)
+        if adjacency.from_node == from_id:
+            new_node = Content.get_or_create(adjacency.to_node)
+        else:
+            new_node = Content.get_or_create(adjacency.from_node)
 
-                result['adjacent_nodes'].append(
-                    {'id': new_node.id,
-                     'docType': new_node.docType,
-                     'title':new_node.title
-                    })
-        except:
-            continue
+            result['adjacent_nodes'].append(
+                {'id': new_node.id,
+                 'docType': new_node.docType,
+                 'title':new_node.title
+                })
 
     return jsonify(result)
 
