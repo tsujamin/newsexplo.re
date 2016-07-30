@@ -57,11 +57,11 @@ def content_abc(content_id):
 
     return Response(content.json, mimetype="application/json")
 
-@app.route('/api/content/abc_just_in/')
+@app.route('/api/content/abc/just_in/')
 def content_abc_just_in():
     limit = request.args["limit"] if "limit" in request.args else BACKEND_JUST_IN_QUERY_LIMIT
 
-    return jsonify([content.json for content in JustIn.get_most_recent(limit)])
+    return jsonify([json.loads(content.json) for content in JustIn.get_most_recent(limit)])
 
 @app.route('/api/adjacency/<int:from_id>')
 def get_adjacency(from_id):
