@@ -6,6 +6,7 @@ After=network.target
 PIDFile=/tmp/gunicorn.pid
 User=govhack
 Group=govhack
+EnvironmentFile=/srv/newsexplo.re/conf/environment
 WorkingDirectory=/srv/newsexplo.re
 ExecStart=/usr/bin/bash -c "cd /srv/newsexplo.re; source bin/activate; gunicorn --timeout 60 --workers 4 --pid /tmp/gunicorn.pid backend:app --log-level debug --log-file -"
 ExecReload=/bin/kill -s HUP $MAINPID
