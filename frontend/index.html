@@ -62,7 +62,7 @@
                   <a href="/">Home</a>
                 </li>
                 <li>
-                  <a href="/about/">About</a>
+                  <a onclick="$('#about').modal(); return false;" href="#">About</a>
                 </li>
               </ul>
               <div class="col-sm-3 col-md-3 pull-right">
@@ -135,6 +135,27 @@
       </div>
       <div class="modal-body">
         <p>Please enter in a valid ABC News URL, such as <em>http://www.abc.net.au/news/2016-07-30/new-claims-of-abuse-at-cleveland-youth-detention-centre/7674896</em></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+ <!-- Modal -->
+<div id="about" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">About <em>newsexplo.re</em></h4>
+      </div>
+      <div class="modal-body">
+        <p><em>newsexplo.re</em> unlocks the world of news!</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
