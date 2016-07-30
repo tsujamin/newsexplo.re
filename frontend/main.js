@@ -15,6 +15,12 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/*
+  If you're reading this code, don't.
+
+  Just... don't. You'll regret everything.
+*/
+
 var HTTP_BASE = "";
 var API_BASE = "https://newsexplo.re/api";
 var OPTIONS = {
@@ -33,6 +39,7 @@ var edges = null;
 var network = null;
 
 var nodeData = {};
+var nodeImageContent = {};
 
 function loadSVGTemplate() {
     var xmlhttp = new XMLHttpRequest();
@@ -60,8 +67,11 @@ function apiGet(reqType, reqID, callback) {
 }
 
 function addNode(reqID, nodeParsed) {
+    if (nodeParsed['docType'] == 'Image' || nodeParsed['docType'] == 'ImageProxy')
+	return;
     nodes.add({id: reqID, shape: 'image', image: nodeSVG(nodeParsed), size: 70});
     nodeData[reqID] = nodeParsed;
+    apiGet('adjacency', reqID, getAdjacentImages);
 }
 
 function addAdjacent(reqID, resp) {
@@ -79,6 +89,47 @@ function addAdjacent(reqID, resp) {
     }
 }
 
+function ABCImageGet(reqID, callback) {
+    var image = new Image();
+    image.onload = function () {
+	var canvas = document.createElement('canvas');
+	canvas.width = this.naturalWidth;
+	canvas.height = this.naturalHeight;
+	canvas.getContext('2d').drawImage(this, 0, 0);
+	callback(reqID, canvas.toDataURL('image/png'));
+    };
+    image.crossOrigin = "Anonymous";
+    image.src = API_BASE + "/content/abc/imageproxy/" + reqID;
+}
+
+function setNewImage(nodeID, content) {
+    var node = nodes.get(nodeID);
+    nodeImageContent[nodeID] = content;
+    node.image = nodeSVG(nodeData[nodeID]);
+    nodes.update(node);
+}
+
+function getAdjacentImages(reqID, resp) {
+    for (var idx = 0; idx < resp['adjacent_nodes'].length; idx++) {
+	var nodeID = resp['adjacent_nodes'][idx]['id'];
+	if (!nodes.get(nodeID)) {
+	    apiGet("content/abc", nodeID, function(newNodeID, resp) {
+		if (resp['docType'] == 'Image' || resp['docType'] == 'ImageProxy') {
+		    ABCImageGet(newNodeID, function (newNodeID, resp) {
+			setNewImage(reqID, resp);
+		    });
+		}
+	    });
+	} else {
+	    if (nodeData[nodeID]['docType'] == 'Image' || nodeData[nodeID]['docType'] == 'ImageProxy') {
+		ABCImageGet(nodeID, function (newNodeID, resp) {
+		    setNewImage(reqID, resp);
+		});
+	    }
+	}
+    }
+}
+
 function nodeSVG(nodeParsed) {
     if (SVG_TEMPLATE == null) {
 	setTimeout(function() {
@@ -88,12 +139,15 @@ function nodeSVG(nodeParsed) {
     }
 
     var title = nodeParsed['title'].length > 30 ? nodeParsed['title'].substring(0, 27) + '...' : nodeParsed['title'];
-
-    var nodeBody = '<h1 style="font-family: sans-serif; max-height: 100px;">' + title + '</h1>';
+    var nodeBody = '';
+    if (nodeImageContent[nodeParsed['id']]) {
+	nodeBody += '<img src="' + nodeImageContent[nodeParsed['id']] + '" style="width: 230px; height: 200px;" />';
+    }
+    nodeBody += '<h1 style="font-family: sans-serif; max-height: 100px;">' + title + '</h1>';
     if ('teaserTextPlain' in nodeParsed) {
 	nodeBody += '<p style="font-family: sans-serif;">' + nodeParsed['teaserTextPlain'].substring(0, 50) + '...</p>';
     }
-
+    console.log(nodeBody);
     var data = SVG_TEMPLATE;
     data = data.replace("$BODY_TEXT$", nodeBody);
     var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
