@@ -194,13 +194,15 @@ class Content(_db.Model):
         return self.json_obj
 
     def get_adjacency_sample(self, limit=20, docType=None):
-        location_count = int(limit/4)
-        subject_count = int(limit/4)
+        location_count = int(limit/5)
+        subject_count = int(limit/5)
+        watsonsubject_count = int(limit/5)
         related_count = limit - location_count - subject_count
 
         return self._adjacent_query("location", location_count, docType=docType) +\
                self._adjacent_query("subject", subject_count, docType=docType) +\
-               self._adjacent_query("related", related_count, docType=docType)
+               self._adjacent_query("related", related_count, docType=docType) +\
+               self._adjacent_query("watsonsubject", watsonsubject_count, docType=docType)
 
     def _adjacent_query(self, relationship, limit, docType=None):
         # Get the adjacent content in either direction
