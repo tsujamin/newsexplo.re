@@ -62,8 +62,8 @@ def content_trove_from_abc(content_id):
     # collate into response object
     for item in trove_data:
         if item.zone not in response["related"]:
-            response["related"]["zone"] = []
-        response["related"]["zone"] = {"title": item.title, "url": item.url}
+            response["related"][item.zone] = []
+        response["related"][item.zone] = {"title": item.title, "url": item.url}
 
     return jsonify(response)
 
