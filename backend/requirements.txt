@@ -8,6 +8,7 @@ Flask-SQLAlchemy==2.1
 gunicorn==19.6.0
 itsdangerous==0.24
 Jinja2==2.8
+lxml==3.6.1
 MarkupSafe==0.23
 psycopg2==2.6.2
 requests==2.10.0
