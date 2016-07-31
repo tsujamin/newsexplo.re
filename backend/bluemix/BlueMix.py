@@ -83,7 +83,7 @@ class BlueMixAdapter:
         session.merge(BlueMixCache(self.content.id))
         results = self.__query_bluemix__()
 
-        if results is None:
+        if results is None or results['status'] == 'ERROR':
             return
 
         for category in BLUEMIX_CATEGORIES:
