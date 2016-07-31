@@ -40,6 +40,8 @@ var SVG_TEMPLATE = null;
 var COLOURS = {
     'Article': '#f6ffd5',
     'location': '#00ff00',
+    'subject': '#99ebff',
+    'watsonsubject': '#99ebff',
 };
 var DEFAULT_COLOUR = '#f6ffd5';
 
