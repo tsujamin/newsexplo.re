@@ -93,11 +93,11 @@ class BlueMixAdapter:
 
                 # Add if it doesn't exist yet
                 if content_object is None:
-                    content_object = Content(Content.next_fake_id(), fake_content=True, docType="subject", title=item)
+                    content_object = Content(Content.next_fake_id(), fake_content=True, docType="watsonsubject", title=item)
                     session.add(content_object)
 
                 # Add adjacency if required
-                session.merge(Adjacency(content_object.id, self.content.id, "subject"))
+                session.merge(Adjacency(content_object.id, self.content.id, "watsonsubject"))
 
         if commit:
             session.commit()
