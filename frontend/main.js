@@ -39,7 +39,7 @@ var SVG_TEMPLATE = null;
 
 var COLOURS = {
     'Article': '#f6ffd5',
-    'location': '#00ff00',
+    'location': '#99ff99',
     'subject': '#99ebff',
     'watsonsubject': '#99ebff',
 };
