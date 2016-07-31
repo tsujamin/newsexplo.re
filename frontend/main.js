@@ -34,6 +34,12 @@ var OPTIONS = {
 var DOMURL = window.URL || window.webkitURL || window;
 var SVG_TEMPLATE = null;
 
+var COLOURS = {
+    'Article': '#f6ffd5',
+    'location': '#00ff00',
+};
+var DEFAULT_COLOUR = '#f6ffd5';
+
 var nodes = null;
 var edges = null;
 var network = null;
@@ -155,6 +161,11 @@ function nodeSVG(nodeParsed) {
     }
     var data = SVG_TEMPLATE;
     data = data.replace("$BODY_TEXT$", nodeBody);
+    if (COLOURS[nodeParsed['docType']] != null) {
+	data = data.replace("$FILL_COLOUR$", COLOURS[nodeParsed['docType']]);
+    } else {
+	data = data.replace("$FILL_COLOUR$", DEFAULT_COLOUR);
+    }
     var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
     var url = DOMURL.createObjectURL(svg);
     return url;

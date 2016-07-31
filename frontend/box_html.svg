@@ -28,7 +28,7 @@
      transform="translate(0,-702.36218)"
      id="layer1">
     <rect
-       style="fill:#f6ffd5;fill-rule:evenodd;stroke:#000000;stroke-width:3.057868px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:$FILL_COLOUR$;fill-rule:evenodd;stroke:#000000;stroke-width:3.057868px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        id="rect3336"
        width="246.94214"
        height="346.94214"
