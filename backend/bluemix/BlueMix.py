@@ -90,7 +90,7 @@ class BlueMixAdapter:
             items = results[category]
             for item in items:
                 # Check for existing content item
-                content_object = Content.query.filter_by(func.lower(title)=func.lower(item)).limit(1).first()
+                content_object = Content.query.filter_by(func.lower(title)==func.lower(item)).limit(1).first()
 
                 # Add if it doesn't exist yet
                 if content_object is None:
