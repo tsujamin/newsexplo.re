@@ -279,6 +279,9 @@ function displayNodeInfo(nodeID) {
     } else if (node['docType'] == 'subject') {
 	$('#infobox_title').append(' (ABC, Subject)');
 	$('#infobox_desc').html('');
+    } else if (node['docType'] == 'watsonsubject') {
+	$('#infobox_title').append(' (Watson, Subject/Person)');
+	$('#infobox_desc').html('');
     } else {
 	$('#infobox_desc').html('');
     }
