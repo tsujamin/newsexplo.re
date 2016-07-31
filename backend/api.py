@@ -57,13 +57,11 @@ def content_trove_from_abc(content_id):
         abort(404)
 
     trove_data = TroveAdapter(content).get_items()
-    response = {"id": content.id, "related": {}}
+    response = {"id": content.id, "related": []}
 
     # collate into response object
     for item in trove_data:
-        if item.zone not in response["related"]:
-            response["related"][item.zone] = []
-        response["related"][item.zone] = {"title": item.title, "url": item.url}
+        response["related"].append({"title": item.title, "url": item.url})
 
     return jsonify(response)
 
