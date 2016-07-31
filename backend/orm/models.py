@@ -17,6 +17,8 @@
 #
 
 from backend.orm import db_context
+from sqlalchemy import func
+from backend.bluemix.BlueMix import BlueMixAdapter
 import requests
 import json
 
@@ -37,6 +39,10 @@ class Content(_db.Model):
     def get_or_create(id):
         cached = Content.query.get(int(id))
         if cached is not None:
+            # Check if bluemix population required
+            if cached.docType == "Article" and not BlueMixCache(cached.id).exists():
+                BlueMixAdapter(cached).query_and_add_bluemix(commit=True)
+
             return cached
         else:
             return Content(id)
@@ -58,13 +64,16 @@ class Content(_db.Model):
             self.title = title
             self.json = json.dumps({"id": self.id, "docType": self.docType, "title": self.title})
 
-
         if not self.exists():
             _db.session.add(self)
 
         if not fake_content:
             # only real content has adjacencies
             self._populate_adjacencies()
+
+            # populate bluemix adjacencies
+            if self.docType is "Article" and not BlueMixCache(self.id).exists():
+                BlueMixAdapter(self).query_and_add_bluemix()
 
             # only top-most level article should be real API data, so only call commit for these
             _db.session.commit()
@@ -144,6 +153,12 @@ class Content(_db.Model):
 
             if not adjacency.exists():
                 _db.session.add(adjacency)
+
+    @staticmethod
+    def next_fake_id(db=_db):
+        fake_base = 42420000
+
+        return max(fake_base, db.session.query(func.max(Content.id)).scalar()) + 1
 
     @staticmethod
     def collate_nested_relationships(child, relationship, object):
@@ -279,6 +294,16 @@ class Trove(_db.Model):
         self.zone = zone
         self.url = url
 
+
+class BlueMixCache(_db.Model):
+    id = _db.Column(_db.Integer, primary_key=True)
+
+    def __init__(self, id):
+        self.id = id
+
+    def exists(self):
+        query = BlueMixCache.query.filter_by(id=self.id).limit(1).first()
+        return query is not None
 
 if len(_db.engine.table_names()) is 0:
     _db.create_all()

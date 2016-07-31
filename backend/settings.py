@@ -43,4 +43,5 @@ SQLALCHEMY_PORT     = int(__from_env_or_default("SQLALCHEMY_PORT", 5432))
 BACKEND_ADJACENCY_QUERY_LIMIT   = int(__from_env_or_default("BACKEND_ADJACENCY_QUERY_LIMIT", 20))
 BACKEND_JUST_IN_QUERY_LIMIT     = int(__from_env_or_default("BACKEND_JUST_IN_QUERY_LIMIT", 10))
 
-TROVE_KEY = __from_env_or_default("TROVE_KEY", None)
+TROVE_KEY   = __from_env_or_default("TROVE_KEY", None)
+BLUEMIX_KEY = __from_env_or_default("BLUEMIX_KEY", None)

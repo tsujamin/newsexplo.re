@@ -69,7 +69,7 @@ def content_trove_from_abc(content_id):
 def content_abc(content_id):
     try:
         content = Content.get_or_create(content_id)
-    except:
+    except LookupError:
         abort(404)
 
     return Response(content.json, mimetype="application/json")
