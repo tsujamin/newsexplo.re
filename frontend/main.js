@@ -24,13 +24,16 @@ LICENCE = `
 var HTTP_BASE = "";
 var API_BASE = "https://newsexplo.re/api";
 var OPTIONS = {
-    physics: {
-	forceAtlas2Based: {
-	    springLength: 500
-	},
-	solver: 'forceAtlas2Based'
-    }
+  physics: {
+    repulsion: {
+      springLength: 500,
+      nodeDistance: 300
+    },
+    solver: 'repulsion',
+  }
 }
+
+console.log(OPTIONS)
 var DOMURL = window.URL || window.webkitURL || window;
 var SVG_TEMPLATE = null;
 
