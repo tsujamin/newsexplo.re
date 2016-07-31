@@ -45,11 +45,26 @@ html, body {
     opacity: 0.8;
     max-height: 100%;
     overflow-y: auto;
+    padding: 10px;
 }
 
 #infobox_title {
-    padding: 15px;
+    padding: 5px;
     border-bottom: 1px solid #e5e5e5;
+}
+
+#infobox_related_div {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+#infobox_desc_outer {
+    padding-top: 10px;
+}
+
+#infobox_img {
+    width: 90%;
+    display: block;
+    margin: auto;
 }
 
 .navbar-brand {

@@ -1,4 +1,4 @@
-/*
+LICENCE = `
   Copyright © 2016 Benjamin Roberts, Andrew Donnellan
 
   This program is free software: you can redistribute it and/or modify
@@ -13,7 +13,7 @@
 
   You should have received a copy of the GNU Affero General Public License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+`;
 
 /*
   If you're reading this code, don't.
@@ -78,7 +78,13 @@ function addAdjacent(reqID, resp) {
     for (var idx = 0; idx < resp['adjacent_nodes'].length; idx++) {
 	var nodeID = resp['adjacent_nodes'][idx]['id'];
 	if (!nodes.get(nodeID))
-	    apiGet("content/abc", nodeID, addNode);
+	    apiGet("content/abc", nodeID, function(nodeID, resp) {
+		addNode(nodeID, resp);
+		if (network.getSelectedNodes()[0] == reqID) {
+		    // Refresh infobox
+		    displayNodeInfo(reqID);
+		}
+	    });
 	var existingEdges = edges.get({
 	    filter: function(item) {
 		return (item.from == reqID && item.to == nodeID ||
@@ -154,6 +160,10 @@ function nodeSVG(nodeParsed) {
     return url;
 }
 
+function selectNode(nodeID) {
+    expandNode({nodes: [nodeID]});
+}
+
 function expandNode(params) {
     nodeID = params['nodes'][0];
     // make sure we're the only ones selected
@@ -227,7 +237,7 @@ function handleSearchForm(event) {
 	nodes.clear();
 	apiGet("content/abc", match[3], function(nodeID, resp) {
 	    addNode(nodeID, resp);
-	    expandNode({nodes: [nodeID]});
+	    selectNode(nodeID);
 	});
     } else {
 	$("#err_search").modal();
@@ -236,7 +246,41 @@ function handleSearchForm(event) {
 }
 
 function displayNodeInfo(nodeID) {
-    $("#infobox_title").text(nodeData[nodeID]['title']);
+    var node = nodeData[nodeID];
+
+    // Clear stuff
+    $('#infobox_related').html('');
+
+    if (node['canonicalUrl']) {
+	$("#infobox_title").html('<a href="' + node['canonicalUrl'] + '" target="_blank">' + node['title'] + '<span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a>');
+    } else {
+	$("#infobox_title").text(node['title']);
+    }
+    if (node['docType'] == 'Article') {
+	$('#infobox_desc').html(node['text']);
+	$('#infobox_title').append(' (ABC)');
+    } else if (node['docType'] == 'location') {
+	$('#infobox_title').append(' (ABC, Location)');
+	$('#infobox_desc').html('');
+    } else if (node['docType'] == 'subject') {
+	$('#infobox_title').append(' (ABC, Subject)');
+	$('#infobox_desc').html('');
+    } else {
+	$('#infobox_desc').html('');
+    }
+
+    if (nodeImageContent[nodeID]) {
+	$('#infobox_img').attr('src', nodeImageContent[nodeID]);
+	$('#infobox_img').show();
+    } else {
+	$('#infobox_img').hide();
+    }
+
+    related = network.getConnectedNodes(nodeID);
+    for (var idx = 0; idx < related.length; idx++) {
+	$("#infobox_related").append('<li><a href="#" onclick="selectNode(' + related[idx] + ')">' + nodeData[related[idx]]['title'] + '</a></li>')
+    }
+
     $("#infobox").show(300);
 }
 
@@ -244,13 +288,15 @@ function loadABCJustInLatest() {
     apiGet("content/abc/just_in", "", function(nodeID, content) {
 	apiGet("content/abc", content[0]['id'], function(nodeID, resp) {
 	    addNode(nodeID, resp);
-	    expandNode({nodes: [nodeID]});
+	    selectNode(nodeID);
 	});
     });
 }
 
 function init() {
-    console.log("RETICULATING SPLINES...");
+    console.log(">>> N E W S E X P L O . R E   V E R S I O N   0 . 0 1   I N I T I A L I S I N G <<<");
+    console.log(LICENCE);
+    console.log("*** RETICULATING SPLINES... ***");
     console.log("(why are you reading this? go away! don't look at our terrible JavaScript!)");
     $("#welcomedialog").modal()
     $("#search_form").submit(handleSearchForm);
@@ -265,4 +311,5 @@ function init() {
     network.on("deselectNode", shrinkNode);
 
     loadABCJustInLatest();
+    console.log("*** SPLINES RETICULATED, WE'RE READY TO ROLL! ***");
 }
