@@ -66,16 +66,19 @@ class BlueMixAdapter:
             return None
 
         response = response.json()
+        if response['status'] == 'ERROR':
+            return None
 
+        try:
+            # Keep the 3 most relevant from each request
+            results = {category: [] for category in BLUEMIX_CATEGORIES}
 
-        # Keep the 3 most relevant from each request
-        results = {category: [] for category in BLUEMIX_CATEGORIES}
-
-        for category in BLUEMIX_CATEGORIES:
-            for entity in response[category][:min(3, len(response[category]) - 1 )]:
-                results[category].append(entity["text"])
-
-        return results
+            for category in BLUEMIX_CATEGORIES:
+                for entity in response[category][:min(3, len(response[category]) - 1 )]:
+                    results[category].append(entity["text"])
+            return results
+        except:
+            return None
 
     def query_and_add_bluemix(self, session=_db.session, commit=False):
         from backend.orm.models import Content, Adjacency, BlueMixCache
@@ -83,7 +86,7 @@ class BlueMixAdapter:
         session.merge(BlueMixCache(self.content.id))
         results = self.__query_bluemix__()
 
-        if results is None or results['status'] == 'ERROR':
+        if results is None:
             return
 
         for category in BLUEMIX_CATEGORIES:
