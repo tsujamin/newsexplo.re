@@ -281,7 +281,30 @@ function displayNodeInfo(nodeID) {
 	$("#infobox_related").append('<li><a href="#" onclick="selectNode(' + related[idx] + ')">' + nodeData[related[idx]]['title'] + '</a></li>')
     }
 
+    if (node['docType'] == 'Article') {
+	loadTroveFromABC(nodeID);
+    }
+
     $("#infobox").show(300);
+}
+
+function loadTroveFromABC(nodeID) {
+    console.log("Retrieving trove for node " + nodeID);
+    apiGet("content/trove/from_abc", nodeID, function(nodeID, resp) {
+	// stop if node no longer selected
+	if (network.getSelectedNodes()[0] != nodeID) {
+	    console.log("Aborting Trove routine - node ID " + nodeID + " no longer selected");
+	    return;
+	}
+	// stop if we've already done this node - HACK
+	if ($("#infobox_related").html().indexOf("<strong>(Trove)") != -1)
+	    return;
+
+	for (var idx = 0; idx < resp['related'].length, idx <= 2; idx++) {
+	    var item = resp['related'][idx];
+	    $("#infobox_related").append('<li><a href="' + item['url'] + '" target="_blank">' + item['title'] + '<span class="glyphicon glyphicon-new-window" aria-hidden="true"></span></a> <strong>(Trove)</strong></li>');
+	}
+    });
 }
 
 function loadABCJustInLatest() {
