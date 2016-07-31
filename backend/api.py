@@ -23,6 +23,7 @@ from flask import jsonify, Response, abort, request, stream_with_context
 from backend import app
 from backend.orm.models import Content, JustIn
 from backend.settings import *
+from backend.trove.Trove import TroveAdapter
 
 @app.route('/api/')
 def hello_world():
@@ -47,6 +48,24 @@ def content_abc_imageproxy(content_id):
     req = requests.get(url, stream = True)
     return Response(stream_with_context(req.iter_content()),
                     content_type = req.headers['content-type'])
+
+@app.route('/api/content/trove/from_abc/<int:content_id>')
+def content_trove_from_abc(content_id):
+    try:
+        content = Content.get_or_create(content_id)
+    except:
+        abort(404)
+
+    trove_data = TroveAdapter(content).get_items()
+    response = {"id": content.id, "related": {}}
+
+    # collate into response object
+    for item in trove_data:
+        if item.zone not in response["related"]:
+            response["related"]["zone"] = []
+        response["related"]["zone"] = {"title": item.title, "url": item.url}
+
+    return jsonify(response)
 
 @app.route('/api/content/abc/<int:content_id>')
 def content_abc(content_id):

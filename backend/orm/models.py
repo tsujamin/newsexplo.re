@@ -264,5 +264,21 @@ class JustIn(_db.Model):
         return content
 
 
+class Trove(_db.Model):
+    __tablename__ = "trove"
+
+    id = _db.Column(_db.Integer, primary_key=True, autoincrement=True)
+    abc_id = _db.Column(_db.Integer)
+    title = _db.Column(_db.String)
+    zone = _db.Column(_db.String)
+    url = _db.Column(_db.String)
+
+    def __init__(self, abc_id, title, zone, url):
+        self.abc_id = abc_id
+        self.title = title
+        self.zone = zone
+        self.url = url
+
+
 if len(_db.engine.table_names()) is 0:
     _db.create_all()
