@@ -20,6 +20,7 @@
 import argparse
 import feedparser
 import requests
+from sys import stderr
 from bs4 import BeautifulSoup
 
 TOPIC_INDEX = "http://www.abc.net.au/news/topics/"
@@ -29,10 +30,10 @@ DEFAULT_OUTFILE = None
 def main():
     args = parse_arguments()
     topic_urls = gather_topic_pages()
-    print("Gathered {} topic pages".format(len(topic_urls)))
+    stderr.write("Gathered {} topic pages\n".format(len(topic_urls)))
 
     feed_urls = gather_feed_urls(topic_urls)
-    print("Gathered {} feeds".format(len(feed_urls)))
+    stderr.write("Gathered {} feeds\n".format(len(feed_urls)))
 
     ids = set()
     for feed_url in feed_urls:
@@ -45,7 +46,7 @@ def gather_topic_pages():
     topic_pages = []
     alphabet = map(chr, range(ord('a'), ord('z')+1))
     for letter in alphabet:
-        print("Gathering topics starting with " + letter)
+        stderr.write("Gathering topics starting with {}\n".format(letter))
         index_page = requests.get(TOPIC_INDEX + letter)
         page = BeautifulSoup(index_page.content, 'html.parser')
         for a in page.find_all('a'):
@@ -58,7 +59,7 @@ def gather_topic_pages():
 def gather_feed_urls(topic_urls):
     feed_urls = []
     for topic_url in topic_urls:
-        print("Gathering feed URL from topic " + topic_url)
+        stderr.write("Gathering feed URL from topic {}\n".format(topic_url))
         topic_page = requests.get(topic_url)
         page = BeautifulSoup(topic_page.content, 'html.parser')
         for a in page.find_all('a'):
@@ -78,7 +79,7 @@ def gather_ids(feed_url):
     :return:
     """
     ids = set()
-    print("Gathering IDs from feed " + feed_url)
+    stderr.write("Gathering IDs from feed {}\n".format(feed_url))
 
     feed = feedparser.parse(feed_url)
     for article in feed['entries']:
