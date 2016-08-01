@@ -336,7 +336,7 @@ function loadABCJustInLatest() {
 }
 
 function init() {
-    console.log(">>> N E W S E X P L O . R E   V E R S I O N   0 . 0 1   I N I T I A L I S I N G <<<");
+    console.log(">>> N E W S E X P L O . R E   V E R S I O N   0 . 1 . 2   I N I T I A L I S I N G <<<");
     console.log(LICENCE);
     console.log("*** RETICULATING SPLINES... ***");
     console.log("(why are you reading this? go away! don't look at our terrible JavaScript!)");
