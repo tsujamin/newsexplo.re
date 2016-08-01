@@ -19,7 +19,7 @@ import fileinput
 import argparse
 import requests
 
-DEFAULT_URL = "https://govhack2016.bgroberts.id.au/api/"
+DEFAULT_URL = "https://newsexplo.re/api/"
 DEFAULT_INFILE = None
 
 
